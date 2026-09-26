@@ -34,7 +34,7 @@ header{
 
   text-align:center;
 
-  color:#fff;
+  color:white;
 
 }
 
@@ -110,6 +110,14 @@ main{
 
 }
 
+.card h3{
+
+  margin-top:0;
+
+  color:#b87891;
+
+}
+
 .balance{
 
   font-size:28px;
@@ -128,6 +136,50 @@ main{
 
 }
 
+.month-total{
+
+  font-size:24px;
+
+  font-weight:bold;
+
+  color:#bd6f8b;
+
+  margin-top:5px;
+
+}
+
+.category-row{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding:11px 0;
+
+  border-bottom:1px solid #f4e5e9;
+
+}
+
+.category-name{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:7px;
+
+}
+
+.category-amount{
+
+  font-weight:bold;
+
+  color:#b86684;
+
+}
+
 label{
 
   display:block;
@@ -138,7 +190,11 @@ label{
 
 }
 
-input,select,button{font:inherit}
+input,select,button{
+
+  font:inherit;
+
+}
 
 input,select{
 
@@ -174,26 +230,6 @@ input,select{
 
 }
 
-.item{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  padding:12px 0;
-
-  border-bottom:1px solid #f4e5e9;
-
-}
-
-.amount{
-
-  font-weight:bold;
-
-  color:#b86684;
-
-}
-
 .wallet-buttons{
 
   display:grid;
@@ -218,13 +254,29 @@ input,select{
 
 }
 
-.wallet-button.selected{
+.item{
 
-  background:#e9a9bd;
+  display:flex;
 
-  color:white;
+  justify-content:space-between;
+
+  padding:12px 0;
+
+  border-bottom:1px solid #f4e5e9;
+
+}
+
+.amount{
 
   font-weight:bold;
+
+  color:#b86684;
+
+}
+
+.income{
+
+  color:#76a987;
 
 }
 
@@ -238,6 +290,8 @@ input,select{
 
   font-size:12px;
 
+  margin-top:4px;
+
 }
 
 .empty{
@@ -249,6 +303,52 @@ input,select{
   padding:20px 0;
 
   font-size:13px;
+
+}
+
+.small-button{
+
+  border:0;
+
+  border-radius:12px;
+
+  padding:9px 12px;
+
+  background:#fff0f5;
+
+  color:#b87891;
+
+}
+
+.category-setting{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding:10px 0;
+
+  border-bottom:1px solid #f4e5e9;
+
+}
+
+.delete-category{
+
+  border:0;
+
+  background:none;
+
+  color:#c99;
+
+  font-size:12px;
+
+}
+
+select{
+
+  appearance:auto;
 
 }
 
@@ -273,6 +373,8 @@ input,select{
   <button class="tab" onclick="showTab('add',this)">入力</button>
 
   <button class="tab" onclick="showTab('history',this)">履歴</button>
+
+  <button class="tab" onclick="showTab('settings',this)">設定</button>
 
 </div>
 
@@ -326,6 +428,18 @@ input,select{
 
   <div class="card">
 
+    <h3>♡ 今月の支出</h3>
+
+    <div class="wallet">今月の合計</div>
+
+    <div class="month-total" id="monthTotal">¥0</div>
+
+    <div id="categoryTotals"></div>
+
+  </div>
+
+  <div class="card">
+
     <h3>♡ 最近の記録</h3>
 
     <div id="recentList"></div>
@@ -366,19 +480,45 @@ input,select{
 
     </select>
 
+    <label>カテゴリ</label>
+
+    <select id="category"></select>
+
     <label>金額</label>
 
-    <input id="amount" type="number" placeholder="例：1200">
+    <input
+
+      id="amount"
+
+      type="number"
+
+      inputmode="numeric"
+
+      placeholder="例：1200"
+
+    >
 
     <label>内容</label>
 
-    <input id="memo" type="text" placeholder="例：スーパー">
+    <input
+
+      id="memo"
+
+      type="text"
+
+      placeholder="例：スーパー"
+
+    >
 
     <label>日付</label>
 
     <input id="date" type="date">
 
-    <button class="add" onclick="addRecord()">♡ 記録する</button>
+    <button class="add" onclick="addRecord()">
+
+      ♡ 記録する
+
+    </button>
 
   </div>
 
@@ -398,19 +538,103 @@ input,select{
 
 </section>
 
+<!-- 設定 -->
+
+<section id="settings" style="display:none">
+
+  <div class="card">
+
+    <h3>♡ カテゴリ設定</h3>
+
+    <div class="wallet">
+
+      よく使うカテゴリを追加できます
+
+    </div>
+
+    <div id="categorySettings"></div>
+
+    <button
+
+      class="add"
+
+      onclick="addCategory()"
+
+    >
+
+      ＋ カテゴリを追加
+
+    </button>
+
+  </div>
+
+</section>
+
 </main>
 
 <script>
 
-let records = JSON.parse(localStorage.getItem("ririanRecords") || "[]");
+const defaultCategories = [
 
-const today = new Date().toISOString().slice(0,10);
+  "食費",
 
-document.getElementById("date").value = today;
+  "日用品",
+
+  "衣服",
+
+  "教育",
+
+  "美容",
+
+  "住居",
+
+  "交通",
+
+  "その他"
+
+];
+
+let categories =
+
+  JSON.parse(localStorage.getItem("ririanCategories") || "null")
+
+  || defaultCategories;
+
+let records =
+
+  JSON.parse(localStorage.getItem("ririanRecords") || "[]");
+
+/* 以前の記録にカテゴリがない場合 */
+
+records = records.map(r => {
+
+  if(!r.category){
+
+    r.category = "その他";
+
+  }
+
+  return r;
+
+});
 
 function save(){
 
-  localStorage.setItem("ririanRecords", JSON.stringify(records));
+  localStorage.setItem(
+
+    "ririanRecords",
+
+    JSON.stringify(records)
+
+  );
+
+  localStorage.setItem(
+
+    "ririanCategories",
+
+    JSON.stringify(categories)
+
+  );
 
 }
 
@@ -420,17 +644,55 @@ function yen(n){
 
 }
 
+function todayString(){
+
+  return new Date().toISOString().slice(0,10);
+
+}
+
+document.getElementById("date").value = todayString();
+
+function updateCategorySelect(){
+
+  const select =
+
+    document.getElementById("category");
+
+  select.innerHTML =
+
+    categories.map(c =>
+
+      `<option>${escapeHtml(c)}</option>`
+
+    ).join("");
+
+}
+
 function addRecord(){
 
-  const wallet = document.getElementById("wallet").value;
+  const wallet =
 
-  const type = document.getElementById("type").value;
+    document.getElementById("wallet").value;
 
-  const amount = Number(document.getElementById("amount").value);
+  const type =
 
-  const memo = document.getElementById("memo").value.trim();
+    document.getElementById("type").value;
 
-  const date = document.getElementById("date").value;
+  const category =
+
+    document.getElementById("category").value;
+
+  const amount =
+
+    Number(document.getElementById("amount").value);
+
+  const memo =
+
+    document.getElementById("memo").value.trim();
+
+  const date =
+
+    document.getElementById("date").value;
 
   if(!amount){
 
@@ -448,9 +710,11 @@ function addRecord(){
 
     type,
 
+    category,
+
     amount,
 
-    memo: memo || "記録",
+    memo:memo || "記録",
 
     date
 
@@ -458,15 +722,21 @@ function addRecord(){
 
   save();
 
-  document.getElementById("amount").value="";
+  document.getElementById("amount").value = "";
 
-  document.getElementById("memo").value="";
+  document.getElementById("memo").value = "";
 
   update();
 
   alert("記録したよ♡");
 
-  showTab("home",document.querySelector(".tab"));
+  showTab(
+
+    "home",
+
+    document.querySelector(".tab")
+
+  );
 
 }
 
@@ -474,7 +744,9 @@ function deleteRecord(id){
 
   if(!confirm("この記録を削除する？")) return;
 
-  records = records.filter(r => r.id !== id);
+  records =
+
+    records.filter(r => r.id !== id);
 
   save();
 
@@ -486,7 +758,13 @@ function selectWallet(name){
 
   document.getElementById("wallet").value = name;
 
-  showTab("add",document.querySelectorAll(".tab")[1]);
+  showTab(
+
+    "add",
+
+    document.querySelectorAll(".tab")[1]
+
+  );
 
 }
 
@@ -498,15 +776,21 @@ function showTab(name,button){
 
   document.getElementById("history").style.display="none";
 
+  document.getElementById("settings").style.display="none";
+
   document.getElementById(name).style.display="block";
 
-  document.querySelectorAll(".tab").forEach(t=>{
+  document.querySelectorAll(".tab").forEach(t => {
 
     t.classList.remove("active");
 
   });
 
-  if(button) button.classList.add("active");
+  if(button){
+
+    button.classList.add("active");
+
+  }
 
   update();
 
@@ -516,7 +800,7 @@ function update(){
 
   let total = 0;
 
-  records.forEach(r=>{
+  records.forEach(r => {
 
     if(r.type === "income"){
 
@@ -530,43 +814,157 @@ function update(){
 
   });
 
-  document.getElementById("totalBalance").textContent = yen(total);
+  document.getElementById(
 
-  const recent = records.slice(0,5);
+    "totalBalance"
 
-  if(recent.length === 0){
+  ).textContent = yen(total);
 
-    document.getElementById("recentList").innerHTML =
+  /* 今月 */
 
-      '<div class="empty">まだ記録がないよ♡</div>';
+  const month =
 
-  }else{
+    todayString().slice(0,7);
 
-    document.getElementById("recentList").innerHTML =
+  const thisMonth =
 
-      recent.map(makeItem).join("");
+    records.filter(r =>
 
-  }
+      r.date &&
 
-  if(records.length === 0){
+      r.date.slice(0,7) === month
 
-    document.getElementById("historyList").innerHTML =
+    );
 
-      '<div class="empty">まだ記録がないよ♡</div>';
+  let monthTotal = 0;
 
-  }else{
+  thisMonth.forEach(r => {
 
-    document.getElementById("historyList").innerHTML =
+    if(r.type === "expense"){
 
-      records.map(makeItem).join("");
+      monthTotal += r.amount;
 
-  }
+    }
+
+  });
+
+  document.getElementById(
+
+    "monthTotal"
+
+  ).textContent = yen(monthTotal);
+
+  /* カテゴリ別小計 */
+
+  const totals = {};
+
+  categories.forEach(c => {
+
+    totals[c] = 0;
+
+  });
+
+  thisMonth.forEach(r => {
+
+    if(
+
+      r.type === "expense" &&
+
+      totals[r.category] !== undefined
+
+    ){
+
+      totals[r.category] += r.amount;
+
+    }
+
+  });
+
+  const categoryHtml =
+
+    categories
+
+      .filter(c => totals[c] > 0)
+
+      .map(c => `
+
+        <div class="category-row">
+
+          <div class="category-name">
+
+            ${categoryIcon(c)}
+
+            ${escapeHtml(c)}
+
+          </div>
+
+          <div class="category-amount">
+
+            ${yen(totals[c])}
+
+          </div>
+
+        </div>
+
+      `)
+
+      .join("");
+
+  document.getElementById(
+
+    "categoryTotals"
+
+  ).innerHTML =
+
+    categoryHtml ||
+
+    '<div class="empty">今月の支出はまだないよ♡</div>';
+
+  /* 最近 */
+
+  const recent =
+
+    records.slice(0,5);
+
+  document.getElementById(
+
+    "recentList"
+
+  ).innerHTML = recent.length
+
+    ? recent.map(makeItem).join("")
+
+    : '<div class="empty">まだ記録がないよ♡</div>';
+
+  /* 履歴 */
+
+  document.getElementById(
+
+    "historyList"
+
+  ).innerHTML = records.length
+
+    ? records.map(makeItem).join("")
+
+    : '<div class="empty">まだ記録がないよ♡</div>';
+
+  updateCategorySettings();
 
 }
 
 function makeItem(r){
 
-  const sign = r.type === "income" ? "+" : "-";
+  const sign =
+
+    r.type === "income" ? "+" : "-";
+
+  const amountClass =
+
+    r.type === "income"
+
+      ? "amount income"
+
+      : "amount";
 
   return `
 
@@ -574,17 +972,45 @@ function makeItem(r){
 
       <div>
 
-        <div>${r.memo}</div>
+        <div>
 
-        <div class="wallet">${r.wallet} ・ ${r.date}</div>
+          ${categoryIcon(r.category)}
+
+          ${escapeHtml(r.memo)}
+
+        </div>
+
+        <div class="wallet">
+
+          ${escapeHtml(r.wallet)}
+
+          ・
+
+          ${escapeHtml(r.category || "その他")}
+
+          ・
+
+          ${escapeHtml(r.date)}
+
+        </div>
 
       </div>
 
       <div style="text-align:right">
 
-        <div class="amount">${sign}${yen(r.amount)}</div>
+        <div class="${amountClass}">
 
-        <button class="delete" onclick="deleteRecord(${r.id})">
+          ${sign}${yen(r.amount)}
+
+        </div>
+
+        <button
+
+          class="delete"
+
+          onclick="deleteRecord(${r.id})"
+
+        >
 
           削除
 
@@ -597,6 +1023,206 @@ function makeItem(r){
   `;
 
 }
+
+function categoryIcon(category){
+
+  const icons = {
+
+    "食費":"🍚",
+
+    "日用品":"🧻",
+
+    "衣服":"👗",
+
+    "教育":"📚",
+
+    "美容":"💄",
+
+    "住居":"🏠",
+
+    "交通":"🚃",
+
+    "その他":"🎀"
+
+  };
+
+  return icons[category] || "♡";
+
+}
+
+function addCategory(){
+
+  const name =
+
+    prompt("追加するカテゴリ名を入力してね♡");
+
+  if(!name) return;
+
+  const trimmed =
+
+    name.trim();
+
+  if(!trimmed) return;
+
+  if(categories.includes(trimmed)){
+
+    alert("そのカテゴリはもうあるよ♡");
+
+    return;
+
+  }
+
+  categories.push(trimmed);
+
+  save();
+
+  updateCategorySelect();
+
+  update();
+
+  alert(
+
+    "「" +
+
+    trimmed +
+
+    "」を追加したよ♡"
+
+  );
+
+}
+
+function deleteCategory(name){
+
+  if(name === "その他"){
+
+    alert("「その他」は残しておこう♡");
+
+    return;
+
+  }
+
+  const used =
+
+    records.some(r =>
+
+      r.category === name
+
+    );
+
+  if(used){
+
+    alert(
+
+      "このカテゴリを使った記録があるので、削除できないよ♡"
+
+    );
+
+    return;
+
+  }
+
+  if(
+
+    !confirm(
+
+      "「" + name + "」を削除する？"
+
+    )
+
+  ) return;
+
+  categories =
+
+    categories.filter(c => c !== name);
+
+  save();
+
+  updateCategorySelect();
+
+  update();
+
+}
+
+function updateCategorySettings(){
+
+  document.getElementById(
+
+    "categorySettings"
+
+  ).innerHTML =
+
+    categories.map(c => `
+
+      <div class="category-setting">
+
+        <span>
+
+          ${categoryIcon(c)}
+
+          ${escapeHtml(c)}
+
+        </span>
+
+        ${
+
+          c !== "その他"
+
+          ?
+
+          `<button
+
+            class="delete-category"
+
+            onclick="deleteCategory('${escapeAttr(c)}')"
+
+          >
+
+            削除
+
+          </button>`
+
+          :
+
+          ""
+
+        }
+
+      </div>
+
+    `).join("");
+
+}
+
+function escapeHtml(text){
+
+  return String(text)
+
+    .replace(/&/g,"&amp;")
+
+    .replace(/</g,"&lt;")
+
+    .replace(/>/g,"&gt;")
+
+    .replace(/"/g,"&quot;")
+
+    .replace(/'/g,"&#039;");
+
+}
+
+function escapeAttr(text){
+
+  return String(text)
+
+    .replace(/\\/g,"\\\\")
+
+    .replace(/'/g,"\\'");
+
+}
+
+updateCategorySelect();
+
+save();
 
 update();
 
