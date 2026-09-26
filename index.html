@@ -28,9 +28,9 @@ body{
 
 header{
 
-  background:#f6cfdc;
+  background:linear-gradient(135deg,#f5c5d6,#e9a9bd);
 
-  padding:22px 18px 18px;
+  padding:24px 18px 20px;
 
   text-align:center;
 
@@ -50,13 +50,15 @@ h1{margin:0;font-size:25px}
 
   padding:8px;
 
-  gap:6px;
+  gap:5px;
 
   position:sticky;
 
   top:0;
 
-  z-index:2;
+  z-index:5;
+
+  box-shadow:0 2px 8px #eddde2;
 
 }
 
@@ -68,11 +70,13 @@ h1{margin:0;font-size:25px}
 
   background:#fff0f5;
 
-  border-radius:14px;
+  border-radius:13px;
 
-  padding:10px 3px;
+  padding:10px 2px;
 
   color:#b87891;
+
+  font-size:12px;
 
 }
 
@@ -128,55 +132,49 @@ main{
 
 }
 
-.wallet{
-
-  font-size:13px;
-
-  color:#999;
-
-}
-
 .month-total{
 
-  font-size:24px;
+  font-size:25px;
 
   font-weight:bold;
 
   color:#bd6f8b;
 
-  margin-top:5px;
+}
+
+.wallet{
+
+  font-size:12px;
+
+  color:#999;
+
+  margin-top:3px;
 
 }
 
-.category-row{
+.wallet-buttons{
 
-  display:flex;
+  display:grid;
 
-  justify-content:space-between;
+  grid-template-columns:1fr 1fr;
 
-  align-items:center;
-
-  padding:11px 0;
-
-  border-bottom:1px solid #f4e5e9;
+  gap:10px;
 
 }
 
-.category-name{
+.wallet-button{
 
-  display:flex;
+  border:0;
 
-  align-items:center;
+  border-radius:16px;
 
-  gap:7px;
+  padding:16px 8px;
 
-}
+  background:#fff0f5;
 
-.category-amount{
+  color:#b87891;
 
-  font-weight:bold;
-
-  color:#b86684;
+  line-height:1.7;
 
 }
 
@@ -230,27 +228,35 @@ input,select{
 
 }
 
-.wallet-buttons{
+.category-row{
 
-  display:grid;
+  display:flex;
 
-  grid-template-columns:1fr 1fr;
+  justify-content:space-between;
 
-  gap:10px;
+  align-items:center;
+
+  padding:11px 0;
+
+  border-bottom:1px solid #f4e5e9;
 
 }
 
-.wallet-button{
+.category-name{
 
-  border:0;
+  display:flex;
 
-  border-radius:16px;
+  align-items:center;
 
-  padding:15px 8px;
+  gap:7px;
 
-  background:#fff0f5;
+}
 
-  color:#b87891;
+.category-amount{
+
+  font-weight:bold;
+
+  color:#b86684;
 
 }
 
@@ -260,9 +266,23 @@ input,select{
 
   justify-content:space-between;
 
-  padding:12px 0;
+  gap:10px;
+
+  padding:13px 0;
 
   border-bottom:1px solid #f4e5e9;
+
+}
+
+.item-main{
+
+  min-width:0;
+
+}
+
+.item-memo{
+
+  word-break:break-all;
 
 }
 
@@ -272,25 +292,47 @@ input,select{
 
   color:#b86684;
 
+  white-space:nowrap;
+
 }
 
 .income{
 
-  color:#76a987;
+  color:#6d9d7e;
 
 }
 
-.delete{
+.item-actions{
+
+  text-align:right;
+
+  min-width:90px;
+
+}
+
+.edit-button,
+
+.delete-button{
 
   border:0;
 
   background:none;
 
-  color:#c99;
-
   font-size:12px;
 
-  margin-top:4px;
+  margin-top:5px;
+
+}
+
+.edit-button{
+
+  color:#b87891;
+
+}
+
+.delete-button{
+
+  color:#c99;
 
 }
 
@@ -306,17 +348,13 @@ input,select{
 
 }
 
-.small-button{
+.setting-title{
 
-  border:0;
-
-  border-radius:12px;
-
-  padding:9px 12px;
-
-  background:#fff0f5;
+  font-weight:bold;
 
   color:#b87891;
+
+  margin-bottom:8px;
 
 }
 
@@ -334,7 +372,7 @@ input,select{
 
 }
 
-.delete-category{
+.category-setting button{
 
   border:0;
 
@@ -346,9 +384,77 @@ input,select{
 
 }
 
-select{
+.small-note{
 
-  appearance:auto;
+  font-size:11px;
+
+  color:#aaa;
+
+  margin-top:6px;
+
+}
+
+/* 編集画面 */
+
+.modal{
+
+  display:none;
+
+  position:fixed;
+
+  inset:0;
+
+  background:rgba(70,40,50,.35);
+
+  z-index:20;
+
+  padding:20px;
+
+  overflow:auto;
+
+}
+
+.modal-box{
+
+  max-width:520px;
+
+  margin:30px auto;
+
+  background:white;
+
+  border-radius:22px;
+
+  padding:20px;
+
+}
+
+.modal-title{
+
+  color:#b87891;
+
+  font-weight:bold;
+
+  font-size:18px;
+
+  margin-bottom:10px;
+
+}
+
+.cancel{
+
+  width:100%;
+
+  border:1px solid #efd8df;
+
+  background:white;
+
+  color:#b87891;
+
+  border-radius:14px;
+
+  padding:12px;
+
+  margin-top:8px;
 
 }
 
@@ -379,8 +485,6 @@ select{
 </div>
 
 <main>
-
-<!-- ホーム -->
 
 <section id="home">
 
@@ -448,8 +552,6 @@ select{
 
 </section>
 
-<!-- 入力 -->
-
 <section id="add" style="display:none">
 
   <div class="card">
@@ -458,7 +560,7 @@ select{
 
     <label>お財布</label>
 
-    <select id="wallet">
+    <select id="wallet" onchange="updateCategorySelect()">
 
       <option>家計簿</option>
 
@@ -524,8 +626,6 @@ select{
 
 </section>
 
-<!-- 履歴 -->
-
 <section id="history" style="display:none">
 
   <div class="card">
@@ -538,33 +638,19 @@ select{
 
 </section>
 
-<!-- 設定 -->
-
 <section id="settings" style="display:none">
 
   <div class="card">
 
     <h3>♡ カテゴリ設定</h3>
 
-    <div class="wallet">
+    <div class="small-note">
 
-      よく使うカテゴリを追加できます
+      財布ごとにカテゴリを管理できます。あとから追加もOK♡
 
     </div>
 
     <div id="categorySettings"></div>
-
-    <button
-
-      class="add"
-
-      onclick="addCategory()"
-
-    >
-
-      ＋ カテゴリを追加
-
-    </button>
 
   </div>
 
@@ -572,39 +658,151 @@ select{
 
 </main>
 
+<!-- 編集用 -->
+
+<div class="modal" id="editModal">
+
+  <div class="modal-box">
+
+    <div class="modal-title">♡ 記録を編集</div>
+
+    <input type="hidden" id="editId">
+
+    <label>お財布</label>
+
+    <select id="editWallet" onchange="updateEditCategorySelect()">
+
+      <option>家計簿</option>
+
+      <option>リリアン個人</option>
+
+      <option>リリアン給与</option>
+
+      <option>教育</option>
+
+    </select>
+
+    <label>種類</label>
+
+    <select id="editType">
+
+      <option value="expense">支出</option>
+
+      <option value="income">収入</option>
+
+    </select>
+
+    <label>カテゴリ</label>
+
+    <select id="editCategory"></select>
+
+    <label>金額</label>
+
+    <input id="editAmount" type="number">
+
+    <label>内容</label>
+
+    <input id="editMemo" type="text">
+
+    <label>日付</label>
+
+    <input id="editDate" type="date">
+
+    <button class="add" onclick="saveEdit()">
+
+      ♡ 変更を保存
+
+    </button>
+
+    <button class="cancel" onclick="closeEdit()">
+
+      キャンセル
+
+    </button>
+
+  </div>
+
+</div>
+
 <script>
 
-const defaultCategories = [
+const defaultCategories = {
 
-  "食費",
+  "家計簿":[
 
-  "日用品",
+    "食費",
 
-  "衣服",
+    "日用品",
 
-  "教育",
+    "住居",
 
-  "美容",
+    "交通",
 
-  "住居",
+    "外食",
 
-  "交通",
+    "その他"
 
-  "その他"
+  ],
 
-];
+  "リリアン個人":[
+
+    "美容",
+
+    "衣服",
+
+    "趣味",
+
+    "その他"
+
+  ],
+
+  "リリアン給与":[
+
+    "給与",
+
+    "その他"
+
+  ],
+
+  "教育":[
+
+    "塾",
+
+    "教材",
+
+    "学校",
+
+    "習い事",
+
+    "その他"
+
+  ]
+
+};
 
 let categories =
 
-  JSON.parse(localStorage.getItem("ririanCategories") || "null")
+  JSON.parse(
 
-  || defaultCategories;
+    localStorage.getItem("ririanWalletCategories") || "null"
+
+  ) || defaultCategories;
 
 let records =
 
-  JSON.parse(localStorage.getItem("ririanRecords") || "[]");
+  JSON.parse(
 
-/* 以前の記録にカテゴリがない場合 */
+    localStorage.getItem("ririanRecords") || "[]"
+
+  );
+
+/*
+
+以前のバージョンで作った記録には
+
+カテゴリがない場合があるので「その他」にする
+
+*/
 
 records = records.map(r => {
 
@@ -630,7 +828,7 @@ function save(){
 
   localStorage.setItem(
 
-    "ririanCategories",
+    "ririanWalletCategories",
 
     JSON.stringify(categories)
 
@@ -650,19 +848,35 @@ function todayString(){
 
 }
 
-document.getElementById("date").value = todayString();
+document.getElementById("date").value =
+
+  todayString();
+
+function getCategories(wallet){
+
+  return categories[wallet] || ["その他"];
+
+}
 
 function updateCategorySelect(){
+
+  const wallet =
+
+    document.getElementById("wallet").value;
 
   const select =
 
     document.getElementById("category");
 
+  const list =
+
+    getCategories(wallet);
+
   select.innerHTML =
 
-    categories.map(c =>
+    list.map(c =>
 
-      `<option>${escapeHtml(c)}</option>`
+      `<option value="${escapeHtml(c)}">${categoryIcon(c)} ${escapeHtml(c)}</option>`
 
     ).join("");
 
@@ -706,25 +920,25 @@ function addRecord(){
 
     id:Date.now(),
 
-    wallet,
+    wallet:wallet,
 
-    type,
+    type:type,
 
-    category,
+    category:category,
 
-    amount,
+    amount:amount,
 
     memo:memo || "記録",
 
-    date
+    date:date
 
   });
 
   save();
 
-  document.getElementById("amount").value = "";
+  document.getElementById("amount").value="";
 
-  document.getElementById("memo").value = "";
+  document.getElementById("memo").value="";
 
   update();
 
@@ -740,23 +954,11 @@ function addRecord(){
 
 }
 
-function deleteRecord(id){
-
-  if(!confirm("この記録を削除する？")) return;
-
-  records =
-
-    records.filter(r => r.id !== id);
-
-  save();
-
-  update();
-
-}
-
 function selectWallet(name){
 
   document.getElementById("wallet").value = name;
+
+  updateCategorySelect();
 
   showTab(
 
@@ -770,15 +972,13 @@ function selectWallet(name){
 
 function showTab(name,button){
 
-  document.getElementById("home").style.display="none";
+  ["home","add","history","settings"].forEach(id => {
 
-  document.getElementById("add").style.display="none";
+    document.getElementById(id).style.display =
 
-  document.getElementById("history").style.display="none";
+      id === name ? "block" : "none";
 
-  document.getElementById("settings").style.display="none";
-
-  document.getElementById(name).style.display="block";
+  });
 
   document.querySelectorAll(".tab").forEach(t => {
 
@@ -804,11 +1004,11 @@ function update(){
 
     if(r.type === "income"){
 
-      total += r.amount;
+      total += Number(r.amount);
 
     }else{
 
-      total -= r.amount;
+      total -= Number(r.amount);
 
     }
 
@@ -819,8 +1019,6 @@ function update(){
     "totalBalance"
 
   ).textContent = yen(total);
-
-  /* 今月 */
 
   const month =
 
@@ -842,7 +1040,7 @@ function update(){
 
     if(r.type === "expense"){
 
-      monthTotal += r.amount;
+      monthTotal += Number(r.amount);
 
     }
 
@@ -854,61 +1052,83 @@ function update(){
 
   ).textContent = yen(monthTotal);
 
-  /* カテゴリ別小計 */
+  /*
+
+  カテゴリ別小計
+
+  */
 
   const totals = {};
 
-  categories.forEach(c => {
+  thisMonth.forEach(r => {
 
-    totals[c] = 0;
+    if(r.type !== "expense") return;
+
+    const key =
+
+      r.wallet + "||" + (r.category || "その他");
+
+    totals[key] =
+
+      (totals[key] || 0) + Number(r.amount);
 
   });
 
-  thisMonth.forEach(r => {
+  let categoryHtml = "";
 
-    if(
+  Object.keys(categories).forEach(wallet => {
 
-      r.type === "expense" &&
+    const walletCategories =
 
-      totals[r.category] !== undefined
+      categories[wallet];
 
-    ){
+    const walletRows =
 
-      totals[r.category] += r.amount;
+      walletCategories
+
+        .filter(c =>
+
+          totals[wallet + "||" + c] > 0
+
+        )
+
+        .map(c => `
+
+          <div class="category-row">
+
+            <div class="category-name">
+
+              ${walletIcon(wallet)}
+
+              ${escapeHtml(wallet)}
+
+              ／
+
+              ${categoryIcon(c)}
+
+              ${escapeHtml(c)}
+
+            </div>
+
+            <div class="category-amount">
+
+              ${yen(totals[wallet + "||" + c])}
+
+            </div>
+
+          </div>
+
+        `)
+
+        .join("");
+
+    if(walletRows){
+
+      categoryHtml += walletRows;
 
     }
 
   });
-
-  const categoryHtml =
-
-    categories
-
-      .filter(c => totals[c] > 0)
-
-      .map(c => `
-
-        <div class="category-row">
-
-          <div class="category-name">
-
-            ${categoryIcon(c)}
-
-            ${escapeHtml(c)}
-
-          </div>
-
-          <div class="category-amount">
-
-            ${yen(totals[c])}
-
-          </div>
-
-        </div>
-
-      `)
-
-      .join("");
 
   document.getElementById(
 
@@ -920,8 +1140,6 @@ function update(){
 
     '<div class="empty">今月の支出はまだないよ♡</div>';
 
-  /* 最近 */
-
   const recent =
 
     records.slice(0,5);
@@ -930,23 +1148,25 @@ function update(){
 
     "recentList"
 
-  ).innerHTML = recent.length
+  ).innerHTML =
 
-    ? recent.map(makeItem).join("")
+    recent.length
 
-    : '<div class="empty">まだ記録がないよ♡</div>';
+      ? recent.map(makeItem).join("")
 
-  /* 履歴 */
+      : '<div class="empty">まだ記録がないよ♡</div>';
 
   document.getElementById(
 
     "historyList"
 
-  ).innerHTML = records.length
+  ).innerHTML =
 
-    ? records.map(makeItem).join("")
+    records.length
 
-    : '<div class="empty">まだ記録がないよ♡</div>';
+      ? records.map(makeItem).join("")
+
+      : '<div class="empty">まだ記録がないよ♡</div>';
 
   updateCategorySettings();
 
@@ -970,9 +1190,9 @@ function makeItem(r){
 
     <div class="item">
 
-      <div>
+      <div class="item-main">
 
-        <div>
+        <div class="item-memo">
 
           ${categoryIcon(r.category)}
 
@@ -981,6 +1201,8 @@ function makeItem(r){
         </div>
 
         <div class="wallet">
+
+          ${walletIcon(r.wallet)}
 
           ${escapeHtml(r.wallet)}
 
@@ -996,7 +1218,7 @@ function makeItem(r){
 
       </div>
 
-      <div style="text-align:right">
+      <div class="item-actions">
 
         <div class="${amountClass}">
 
@@ -1006,7 +1228,19 @@ function makeItem(r){
 
         <button
 
-          class="delete"
+          class="edit-button"
+
+          onclick="openEdit(${r.id})"
+
+        >
+
+          編集
+
+        </button>
+
+        <button
+
+          class="delete-button"
 
           onclick="deleteRecord(${r.id})"
 
@@ -1024,37 +1258,263 @@ function makeItem(r){
 
 }
 
-function categoryIcon(category){
+function openEdit(id){
 
-  const icons = {
+  const r =
 
-    "食費":"🍚",
+    records.find(x => x.id === id);
 
-    "日用品":"🧻",
+  if(!r) return;
 
-    "衣服":"👗",
+  document.getElementById("editId").value =
 
-    "教育":"📚",
+    r.id;
 
-    "美容":"💄",
+  document.getElementById("editWallet").value =
 
-    "住居":"🏠",
+    r.wallet;
 
-    "交通":"🚃",
+  document.getElementById("editType").value =
 
-    "その他":"🎀"
+    r.type;
 
-  };
+  document.getElementById("editAmount").value =
 
-  return icons[category] || "♡";
+    r.amount;
+
+  document.getElementById("editMemo").value =
+
+    r.memo;
+
+  document.getElementById("editDate").value =
+
+    r.date;
+
+  updateEditCategorySelect();
+
+  const cat =
+
+    getCategories(r.wallet);
+
+  if(cat.includes(r.category)){
+
+    document.getElementById("editCategory").value =
+
+      r.category;
+
+  }else{
+
+    document.getElementById("editCategory").value =
+
+      cat[cat.length-1];
+
+  }
+
+  document.getElementById("editModal").style.display =
+
+    "block";
 
 }
 
-function addCategory(){
+function updateEditCategorySelect(){
+
+  const wallet =
+
+    document.getElementById("editWallet").value;
+
+  const select =
+
+    document.getElementById("editCategory");
+
+  const list =
+
+    getCategories(wallet);
+
+  select.innerHTML =
+
+    list.map(c =>
+
+      `<option value="${escapeHtml(c)}">${categoryIcon(c)} ${escapeHtml(c)}</option>`
+
+    ).join("");
+
+}
+
+function saveEdit(){
+
+  const id =
+
+    Number(document.getElementById("editId").value);
+
+  const r =
+
+    records.find(x => x.id === id);
+
+  if(!r) return;
+
+  const amount =
+
+    Number(document.getElementById("editAmount").value);
+
+  if(!amount){
+
+    alert("金額を入力してね♡");
+
+    return;
+
+  }
+
+  r.wallet =
+
+    document.getElementById("editWallet").value;
+
+  r.type =
+
+    document.getElementById("editType").value;
+
+  r.category =
+
+    document.getElementById("editCategory").value;
+
+  r.amount =
+
+    amount;
+
+  r.memo =
+
+    document.getElementById("editMemo").value.trim()
+
+    || "記録";
+
+  r.date =
+
+    document.getElementById("editDate").value;
+
+  save();
+
+  closeEdit();
+
+  update();
+
+}
+
+function closeEdit(){
+
+  document.getElementById("editModal").style.display =
+
+    "none";
+
+}
+
+function deleteRecord(id){
+
+  if(!confirm("この記録を削除する？")) return;
+
+  records =
+
+    records.filter(r => r.id !== id);
+
+  save();
+
+  update();
+
+}
+
+function updateCategorySettings(){
+
+  let html = "";
+
+  Object.keys(categories).forEach(wallet => {
+
+    html += `
+
+      <div class="setting-title">
+
+        ${walletIcon(wallet)} ${escapeHtml(wallet)}
+
+      </div>
+
+    `;
+
+    categories[wallet].forEach(category => {
+
+      const canDelete =
+
+        category !== "その他";
+
+      html += `
+
+        <div class="category-setting">
+
+          <span>
+
+            ${categoryIcon(category)}
+
+            ${escapeHtml(category)}
+
+          </span>
+
+          ${
+
+            canDelete
+
+            ?
+
+            `<button onclick="deleteCategory('${escapeAttr(wallet)}','${escapeAttr(category)}')">
+
+              削除
+
+            </button>`
+
+            :
+
+            ""
+
+          }
+
+        </div>
+
+      `;
+
+    });
+
+    html += `
+
+      <button
+
+        class="small-button"
+
+        style="margin:10px 0 20px"
+
+        onclick="addCategory('${escapeAttr(wallet)}')"
+
+      >
+
+        ＋ ${escapeHtml(wallet)}にカテゴリを追加
+
+      </button>
+
+    `;
+
+  });
+
+  document.getElementById(
+
+    "categorySettings"
+
+  ).innerHTML = html;
+
+}
+
+function addCategory(wallet){
 
   const name =
 
-    prompt("追加するカテゴリ名を入力してね♡");
+    prompt(
+
+      "「" + wallet + "」に追加するカテゴリ名を入力してね♡"
+
+    );
 
   if(!name) return;
 
@@ -1064,7 +1524,7 @@ function addCategory(){
 
   if(!trimmed) return;
 
-  if(categories.includes(trimmed)){
+  if(categories[wallet].includes(trimmed)){
 
     alert("そのカテゴリはもうあるよ♡");
 
@@ -1072,7 +1532,7 @@ function addCategory(){
 
   }
 
-  categories.push(trimmed);
+  categories[wallet].push(trimmed);
 
   save();
 
@@ -1082,19 +1542,15 @@ function addCategory(){
 
   alert(
 
-    "「" +
-
-    trimmed +
-
-    "」を追加したよ♡"
+    "「" + trimmed + "」を追加したよ♡"
 
   );
 
 }
 
-function deleteCategory(name){
+function deleteCategory(wallet,category){
 
-  if(name === "その他"){
+  if(category === "その他"){
 
     alert("「その他」は残しておこう♡");
 
@@ -1106,7 +1562,9 @@ function deleteCategory(name){
 
     records.some(r =>
 
-      r.category === name
+      r.wallet === wallet &&
+
+      r.category === category
 
     );
 
@@ -1126,15 +1584,19 @@ function deleteCategory(name){
 
     !confirm(
 
-      "「" + name + "」を削除する？"
+      "「" + category + "」を削除する？"
 
     )
 
   ) return;
 
-  categories =
+  categories[wallet] =
 
-    categories.filter(c => c !== name);
+    categories[wallet].filter(
+
+      c => c !== category
+
+    );
 
   save();
 
@@ -1144,53 +1606,59 @@ function deleteCategory(name){
 
 }
 
-function updateCategorySettings(){
+function categoryIcon(category){
 
-  document.getElementById(
+  const icons = {
 
-    "categorySettings"
+    "食費":"🍚",
 
-  ).innerHTML =
+    "日用品":"🧻",
 
-    categories.map(c => `
+    "住居":"🏠",
 
-      <div class="category-setting">
+    "交通":"🚃",
 
-        <span>
+    "外食":"🍴",
 
-          ${categoryIcon(c)}
+    "美容":"💄",
 
-          ${escapeHtml(c)}
+    "衣服":"👗",
 
-        </span>
+    "趣味":"🎀",
 
-        ${
+    "給与":"💰",
 
-          c !== "その他"
+    "塾":"✏️",
 
-          ?
+    "教材":"📖",
 
-          `<button
+    "学校":"🏫",
 
-            class="delete-category"
+    "習い事":"🎹",
 
-            onclick="deleteCategory('${escapeAttr(c)}')"
+    "その他":"♡"
 
-          >
+  };
 
-            削除
+  return icons[category] || "♡";
 
-          </button>`
+}
 
-          :
+function walletIcon(wallet){
 
-          ""
+  const icons = {
 
-        }
+    "家計簿":"🏠",
 
-      </div>
+    "リリアン個人":"🎀",
 
-    `).join("");
+    "リリアン給与":"💰",
+
+    "教育":"📚"
+
+  };
+
+  return icons[wallet] || "♡";
 
 }
 
