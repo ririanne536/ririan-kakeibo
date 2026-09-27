@@ -12,589 +12,119 @@
 
 <style>
 
-*{
+*{box-sizing:border-box}
 
-  box-sizing:border-box;
+body{margin:0;background:#fff7fa;color:#555;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif}
 
-}
+header{background:linear-gradient(135deg,#ffdce9,#f9dff2);padding:20px 16px 18px;text-align:center;color:#8b6375;box-shadow:0 2px 8px rgba(180,120,150,.12)}
 
-body{
+header h1{margin:0;font-size:24px;letter-spacing:1px}
 
-  margin:0;
+header p{margin:5px 0 0;font-size:12px}
 
-  background:#fff7fa;
+.container{max-width:700px;margin:auto;padding:14px}
 
-  color:#555;
+.wallet-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:14px}
 
-  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",
+.wallet-tab{border:none;background:white;border-radius:14px;padding:10px 3px;color:#777;font-size:12px;box-shadow:0 2px 7px rgba(180,120,150,.1);cursor:pointer}
 
-    "Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+.wallet-tab.active{background:#eebbd0;color:white;font-weight:bold}
 
-}
+.card{background:white;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 3px 12px rgba(180,120,150,.1)}
 
-header{
+.card-title{font-size:15px;font-weight:bold;color:#936b7d;margin-bottom:12px}
 
-  background:linear-gradient(135deg,#ffdce9,#f9dff2);
+.type-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 
-  padding:20px 16px 18px;
+.type-btn{border:1px solid #f0d4df;background:#fff;border-radius:12px;padding:10px;color:#999;cursor:pointer}
 
-  text-align:center;
+.type-btn.active.expense{background:#f4b6c9;color:white}
 
-  color:#8b6375;
+.type-btn.active.income{background:#b8d9c4;color:white}
 
-  box-shadow:0 2px 8px rgba(180,120,150,.12);
+input,select{width:100%;border:1px solid #ead9df;border-radius:11px;padding:11px;font-size:14px;color:#555;background:#fff;margin-bottom:9px;outline:none}
 
-}
+input:focus,select:focus{border-color:#dda8bf}
 
-header h1{
+.amount{font-size:22px;text-align:right}
 
-  margin:0;
+.save-btn,.cancel-btn{width:100%;border:none;border-radius:13px;padding:13px;color:white;font-size:15px;font-weight:bold;cursor:pointer}
 
-  font-size:24px;
+.save-btn{background:#d98eae}
 
-  letter-spacing:1px;
+.cancel-btn{background:#eee;color:#777;font-size:14px;margin-top:7px;display:none}
 
-}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 
-header p{
+.summary-box{border-radius:14px;padding:13px;text-align:center;background:#f9f9f9}
 
-  margin:5px 0 0;
+.summary-box.exp{background:#fff0f4}
 
-  font-size:12px;
+.summary-box.inc{background:#eef8f1}
 
-}
+.summary-label{font-size:11px;color:#999}
 
-.container{
+.summary-number{font-size:20px;font-weight:bold;margin-top:3px}
 
-  max-width:700px;
+.exp .summary-number{color:#d6819e}
 
-  margin:auto;
+.inc .summary-number{color:#76a88a}
 
-  padding:14px;
+.month-control{display:flex;align-items:center;gap:7px}
 
-}
+.month-control button{border:none;background:#f3d5e1;color:#936b7d;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
 
-.wallet-tabs{
+.month-control input{margin:0;text-align:center}
 
-  display:grid;
+.education-total{background:linear-gradient(135deg,#fff0f6,#f6ebff);border-radius:15px;padding:16px;text-align:center;margin-bottom:12px}
 
-  grid-template-columns:repeat(4,1fr);
+.education-total .label{font-size:12px;color:#999}
 
-  gap:7px;
+.education-total .total{font-size:27px;font-weight:bold;color:#a16c91;margin-top:4px}
 
-  margin-bottom:14px;
+.education-balance{background:linear-gradient(135deg,#eef8f1,#edf7ff);border-radius:15px;padding:16px;text-align:center;margin-bottom:12px}
 
-}
+.education-balance .label{font-size:12px;color:#999}
 
-.wallet-tab{
+.education-balance .total{font-size:27px;font-weight:bold;color:#76a88a;margin-top:4px}
 
-  border:none;
+.list{margin-top:4px}
 
-  background:white;
+.item{border-bottom:1px solid #f3e7eb;padding:12px 0}
 
-  border-radius:14px;
+.item:last-child{border-bottom:none}
 
-  padding:10px 3px;
+.item-top{display:flex;justify-content:space-between;gap:10px}
 
-  color:#777;
+.item-name{font-weight:bold;color:#666;word-break:break-all}
 
-  font-size:12px;
+.item-amount{font-weight:bold;white-space:nowrap}
 
-  box-shadow:0 2px 7px rgba(180,120,150,.1);
+.item-amount.expense{color:#d6819e}
 
-  cursor:pointer;
+.item-amount.income{color:#76a88a}
 
-}
+.item-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:5px;color:#aaa;font-size:11px}
 
-.wallet-tab.active{
+.item-buttons button{border:none;background:#f8eef2;color:#a2788a;border-radius:8px;padding:5px 9px;margin-left:4px;cursor:pointer}
 
-  background:#eebbd0;
+.empty{text-align:center;padding:25px 10px;color:#bbb;font-size:13px}
 
-  color:white;
+.category-manager{display:flex;gap:6px}
 
-  font-weight:bold;
+.category-manager input{margin:0}
 
-}
+.small-btn{border:none;border-radius:10px;background:#efd2df;color:#8d6678;padding:0 13px;cursor:pointer}
 
-.card{
+.category-list{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
 
-  background:white;
+.category-chip{background:#faf0f4;color:#9a7484;padding:6px 9px;border-radius:20px;font-size:11px}
 
-  border-radius:18px;
+.category-chip button{border:none;background:none;color:#c895a8;margin-left:3px;cursor:pointer}
 
-  padding:16px;
+.notice{text-align:center;color:#aaa;font-size:11px;padding:5px}
 
-  margin-bottom:14px;
-
-  box-shadow:0 3px 12px rgba(180,120,150,.1);
-
-}
-
-.card-title{
-
-  font-size:15px;
-
-  font-weight:bold;
-
-  color:#936b7d;
-
-  margin-bottom:12px;
-
-}
-
-.type-buttons{
-
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  gap:8px;
-
-  margin-bottom:12px;
-
-}
-
-.type-btn{
-
-  border:1px solid #f0d4df;
-
-  background:#fff;
-
-  border-radius:12px;
-
-  padding:10px;
-
-  color:#999;
-
-  cursor:pointer;
-
-}
-
-.type-btn.active.expense{
-
-  background:#f4b6c9;
-
-  color:white;
-
-}
-
-.type-btn.active.income{
-
-  background:#b8d9c4;
-
-  color:white;
-
-}
-
-input,select{
-
-  width:100%;
-
-  border:1px solid #ead9df;
-
-  border-radius:11px;
-
-  padding:11px;
-
-  font-size:14px;
-
-  color:#555;
-
-  background:#fff;
-
-  margin-bottom:9px;
-
-  outline:none;
-
-}
-
-input:focus,select:focus{
-
-  border-color:#dda8bf;
-
-}
-
-.amount{
-
-  font-size:22px;
-
-  text-align:right;
-
-}
-
-.save-btn{
-
-  width:100%;
-
-  border:none;
-
-  border-radius:13px;
-
-  padding:13px;
-
-  background:#d98eae;
-
-  color:white;
-
-  font-size:15px;
-
-  font-weight:bold;
-
-  cursor:pointer;
-
-}
-
-.cancel-btn{
-
-  width:100%;
-
-  border:none;
-
-  border-radius:13px;
-
-  padding:11px;
-
-  background:#eee;
-
-  color:#777;
-
-  font-size:14px;
-
-  margin-top:7px;
-
-  cursor:pointer;
-
-  display:none;
-
-}
-
-.summary{
-
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  gap:9px;
-
-}
-
-.summary-box{
-
-  border-radius:14px;
-
-  padding:13px;
-
-  text-align:center;
-
-}
-
-.summary-box.exp{
-
-  background:#fff0f4;
-
-}
-
-.summary-box.inc{
-
-  background:#eef8f1;
-
-}
-
-.summary-label{
-
-  font-size:11px;
-
-  color:#999;
-
-}
-
-.summary-number{
-
-  font-size:20px;
-
-  font-weight:bold;
-
-  margin-top:3px;
-
-}
-
-.exp .summary-number{
-
-  color:#d6819e;
-
-}
-
-.inc .summary-number{
-
-  color:#76a88a;
-
-}
-
-.month-control{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:7px;
-
-}
-
-.month-control button{
-
-  border:none;
-
-  background:#f3d5e1;
-
-  color:#936b7d;
-
-  width:36px;
-
-  height:36px;
-
-  border-radius:50%;
-
-  font-size:18px;
-
-  cursor:pointer;
-
-}
-
-.month-control input{
-
-  margin:0;
-
-  text-align:center;
-
-}
-
-.education-total{
-
-  background:linear-gradient(135deg,#fff0f6,#f6ebff);
-
-  border-radius:15px;
-
-  padding:16px;
-
-  text-align:center;
-
-  margin-bottom:12px;
-
-}
-
-.education-total .label{
-
-  font-size:12px;
-
-  color:#999;
-
-}
-
-.education-total .total{
-
-  font-size:27px;
-
-  font-weight:bold;
-
-  color:#a16c91;
-
-  margin-top:4px;
-
-}
-
-.list{
-
-  margin-top:4px;
-
-}
-
-.item{
-
-  border-bottom:1px solid #f3e7eb;
-
-  padding:12px 0;
-
-}
-
-.item:last-child{
-
-  border-bottom:none;
-
-}
-
-.item-top{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  gap:10px;
-
-}
-
-.item-name{
-
-  font-weight:bold;
-
-  color:#666;
-
-  word-break:break-all;
-
-}
-
-.item-amount{
-
-  font-weight:bold;
-
-  white-space:nowrap;
-
-}
-
-.item-amount.expense{
-
-  color:#d6819e;
-
-}
-
-.item-amount.income{
-
-  color:#76a88a;
-
-}
-
-.item-bottom{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  margin-top:5px;
-
-  color:#aaa;
-
-  font-size:11px;
-
-}
-
-.item-buttons button{
-
-  border:none;
-
-  background:#f8eef2;
-
-  color:#a2788a;
-
-  border-radius:8px;
-
-  padding:5px 9px;
-
-  margin-left:4px;
-
-  cursor:pointer;
-
-}
-
-.empty{
-
-  text-align:center;
-
-  padding:25px 10px;
-
-  color:#bbb;
-
-  font-size:13px;
-
-}
-
-.category-manager{
-
-  display:flex;
-
-  gap:6px;
-
-}
-
-.category-manager input{
-
-  margin:0;
-
-}
-
-.small-btn{
-
-  border:none;
-
-  border-radius:10px;
-
-  background:#efd2df;
-
-  color:#8d6678;
-
-  padding:0 13px;
-
-  cursor:pointer;
-
-}
-
-.category-list{
-
-  margin-top:10px;
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:6px;
-
-}
-
-.category-chip{
-
-  background:#faf0f4;
-
-  color:#9a7484;
-
-  padding:6px 9px;
-
-  border-radius:20px;
-
-  font-size:11px;
-
-}
-
-.category-chip button{
-
-  border:none;
-
-  background:none;
-
-  color:#c895a8;
-
-  margin-left:3px;
-
-  cursor:pointer;
-
-}
-
-.notice{
-
-  text-align:center;
-
-  color:#aaa;
-
-  font-size:11px;
-
-  padding:5px;
-
-}
-
-.hidden{
-
-  display:none!important;
-
-}
+.hidden{display:none!important}
 
 </style>
 
@@ -604,1055 +134,847 @@ input:focus,select:focus{
 
 <header>
 
-  <h1>♡ リリアン家計簿 ♡</h1>
+<h1>♡ リリアン家計簿 ♡</h1>
 
-  <p>かわいく、ざっくり、ちゃんと管理</p>
+<p>かわいく、ざっくり、ちゃんと管理</p>
 
 </header>
 
 <div class="container">
 
-  <!-- 財布 -->
+<div class="wallet-tabs">
 
-  <div class="wallet-tabs">
+<button class="wallet-tab active" data-wallet="家計簿">🏠<br>家計簿</button>
 
-    <button class="wallet-tab active" data-wallet="家計簿">🏠<br>家計簿</button>
+<button class="wallet-tab" data-wallet="リリアン個人">💕<br>個人</button>
 
-    <button class="wallet-tab" data-wallet="リリアン個人">💕<br>個人</button>
+<button class="wallet-tab" data-wallet="リリアン給与">💰<br>給与</button>
 
-    <button class="wallet-tab" data-wallet="リリアン給与">💰<br>給与</button>
+<button class="wallet-tab" data-wallet="教育">🎓<br>教育</button>
 
-    <button class="wallet-tab" data-wallet="教育">🎓<br>教育</button>
+</div>
 
-  </div>
+<div class="card">
 
-  <!-- 入力 -->
+<div class="card-title" id="formTitle">🏠 家計簿に入力</div>
 
-  <div class="card">
+<div class="type-buttons">
 
-    <div class="card-title" id="formTitle">🏠 家計簿に入力</div>
+<button class="type-btn active expense" id="expenseBtn">支出</button>
 
-    <div class="type-buttons">
+<button class="type-btn income" id="incomeBtn">収入</button>
 
-      <button class="type-btn active expense" id="expenseBtn">
+</div>
 
-        支出
+<input type="date" id="dateInput">
 
-      </button>
+<input type="number" id="amountInput" class="amount" placeholder="金額" min="0">
 
-      <button class="type-btn income" id="incomeBtn">
+<input type="text" id="memoInput" placeholder="内容（例：スーパー、塾代など）">
 
-        収入
+<select id="categoryInput"></select>
 
-      </button>
+<button class="save-btn" id="saveBtn">追加する ♡</button>
 
-    </div>
+<button class="cancel-btn" id="cancelBtn">編集をキャンセル</button>
 
-    <input type="date" id="dateInput">
+</div>
 
-    <input
+<div class="card">
 
-      type="number"
+<div class="card-title">📊 集計</div>
 
-      id="amountInput"
+<div id="monthlyArea">
 
-      class="amount"
+<div class="month-control">
 
-      placeholder="金額"
+<button id="prevMonth">‹</button>
 
-      min="0"
+<input type="month" id="monthInput">
 
-    >
+<button id="nextMonth">›</button>
 
-    <input
+</div>
 
-      type="text"
+<br>
 
-      id="memoInput"
+<div class="summary">
 
-      placeholder="内容（例：スーパー、塾代など）"
+<div class="summary-box exp">
 
-    >
+<div class="summary-label">今月の支出</div>
 
-    <select id="categoryInput"></select>
+<div class="summary-number" id="monthlyExpense">¥0</div>
 
-    <button class="save-btn" id="saveBtn">
+</div>
 
-      追加する ♡
+<div class="summary-box inc">
 
-    </button>
+<div class="summary-label">今月の収入</div>
 
-    <button class="cancel-btn" id="cancelBtn">
+<div class="summary-number" id="monthlyIncome">¥0</div>
 
-      編集をキャンセル
+</div>
 
-    </button>
+</div>
 
-  </div>
+<br>
 
-  <!-- 集計 -->
+<div class="summary">
 
-  <div class="card">
+<div class="summary-box">
 
-    <div class="card-title">📊 集計</div>
+<div class="summary-label">残り</div>
 
-    <div id="monthlyArea">
+<div class="summary-number" id="monthlyBalance">¥0</div>
 
-      <div class="month-control">
+</div>
 
-        <button id="prevMonth">‹</button>
+<div class="summary-box">
 
-        <input type="month" id="monthInput">
+<div class="summary-label">件数</div>
 
-        <button id="nextMonth">›</button>
+<div class="summary-number" id="monthlyCount">0件</div>
 
-      </div>
+</div>
 
-      <br>
+</div>
 
-      <div class="summary">
+</div>
 
-        <div class="summary-box exp">
+<div id="educationArea" class="hidden">
 
-          <div class="summary-label">今月の支出</div>
+<div class="education-total">
 
-          <div class="summary-number" id="monthlyExpense">¥0</div>
+<div class="label">🎓 教育費・これまでの累計</div>
 
-        </div>
+<div class="total" id="educationTotal">¥0</div>
 
-        <div class="summary-box inc">
+</div>
 
-          <div class="summary-label">今月の収入</div>
+<div class="education-balance">
 
-          <div class="summary-number" id="monthlyIncome">¥0</div>
+<div class="label">💰 教育残高</div>
 
-        </div>
+<div class="total" id="educationBalance">¥0</div>
 
-      </div>
+</div>
 
-      <br>
+<div class="summary">
 
-      <div class="summary">
+<div class="summary-box exp">
 
-        <div class="summary-box">
+<div class="summary-label">教育費支出</div>
 
-          <div class="summary-label">残り</div>
+<div class="summary-number" id="educationExpense">¥0</div>
 
-          <div class="summary-number" id="monthlyBalance">¥0</div>
+</div>
 
-        </div>
+<div class="summary-box inc">
 
-        <div class="summary-box">
+<div class="summary-label">教育関連収入</div>
 
-          <div class="summary-label">件数</div>
+<div class="summary-number" id="educationIncome">¥0</div>
 
-          <div class="summary-number" id="monthlyCount">0件</div>
+</div>
 
-        </div>
+</div>
 
-      </div>
+</div>
 
-    </div>
+</div>
 
-    <div id="educationArea" class="hidden">
+<div class="card">
 
-      <div class="education-total">
+<div class="card-title">🏷 カテゴリ</div>
 
-        <div class="label">🎓 教育費・これまでの累計</div>
+<div class="category-manager">
 
-        <div class="total" id="educationTotal">¥0</div>
+<input type="text" id="newCategory" placeholder="カテゴリを追加">
 
-      </div>
+<button class="small-btn" id="addCategory">追加</button>
 
-      <div class="summary">
+</div>
 
-        <div class="summary-box exp">
+<div class="category-list" id="categoryList"></div>
 
-          <div class="summary-label">教育費支出</div>
+</div>
 
-          <div class="summary-number" id="educationExpense">¥0</div>
+<div class="card">
 
-        </div>
+<div class="card-title" id="listTitle">🧾 今月の明細</div>
 
-        <div class="summary-box inc">
+<div class="list" id="transactionList"></div>
 
-          <div class="summary-label">教育関連収入</div>
+</div>
 
-          <div class="summary-number" id="educationIncome">¥0</div>
+<div class="notice">
 
-        </div>
+※データはこのブラウザ内に保存されます
 
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- カテゴリ -->
-
-  <div class="card">
-
-    <div class="card-title">🏷 カテゴリ</div>
-
-    <div class="category-manager">
-
-      <input
-
-        type="text"
-
-        id="newCategory"
-
-        placeholder="カテゴリを追加"
-
-      >
-
-      <button class="small-btn" id="addCategory">
-
-        追加
-
-      </button>
-
-    </div>
-
-    <div class="category-list" id="categoryList"></div>
-
-  </div>
-
-  <!-- 明細 -->
-
-  <div class="card">
-
-    <div class="card-title" id="listTitle">
-
-      🧾 今月の明細
-
-    </div>
-
-    <div class="list" id="transactionList"></div>
-
-  </div>
-
-  <div class="notice">
-
-    ※データはこのブラウザ内に保存されます
-
-  </div>
+</div>
 
 </div>
 
 <script>
 
-const defaultCategories = {
+const defaultCategories={
 
-  "家計簿":[
+"家計簿":[
 
-    "食費",
+"食費","日用品","外食","交通費","光熱費","通信費","住居費","医療費","レジャー","その他"
 
-    "日用品",
+],
 
-    "外食",
+"リリアン個人":[
 
-    "交通費",
+"美容","洋服","コスメ","カフェ","趣味","その他"
 
-    "光熱費",
+],
 
-    "通信費",
+"リリアン給与":[
 
-    "住居費",
+"給与","臨時収入","その他"
 
-    "医療費",
+],
 
-    "レジャー",
+"教育":[
 
-    "その他"
+"塾","学校","教材","模試","習い事","制服・用品","交通費","その他"
 
-  ],
-
-  "リリアン個人":[
-
-    "美容",
-
-    "洋服",
-
-    "コスメ",
-
-    "カフェ",
-
-    "趣味",
-
-    "その他"
-
-  ],
-
-  "リリアン給与":[
-
-    "給与",
-
-    "臨時収入",
-
-    "その他"
-
-  ],
-
-  "教育":[
-
-    "塾",
-
-    "学校",
-
-    "教材",
-
-    "模試",
-
-    "習い事",
-
-    "制服・用品",
-
-    "交通費",
-
-    "その他"
-
-  ]
+]
 
 };
 
-let data =
+let data=JSON.parse(localStorage.getItem("ririanKakeiboData")||"[]");
 
-  JSON.parse(localStorage.getItem("ririanKakeiboData") || "[]");
+let categories=
 
-let categories =
+JSON.parse(localStorage.getItem("ririanKakeiboCategories")||"null")
 
-  JSON.parse(localStorage.getItem("ririanKakeiboCategories") || "null")
+||JSON.parse(JSON.stringify(defaultCategories));
 
-  || JSON.parse(JSON.stringify(defaultCategories));
+let currentWallet="家計簿";
 
-let currentWallet = "家計簿";
+let currentType="expense";
 
-let currentType = "expense";
+let editingId=null;
 
-let editingId = null;
+const dateInput=document.getElementById("dateInput");
 
-const dateInput = document.getElementById("dateInput");
+const amountInput=document.getElementById("amountInput");
 
-const amountInput = document.getElementById("amountInput");
+const memoInput=document.getElementById("memoInput");
 
-const memoInput = document.getElementById("memoInput");
+const categoryInput=document.getElementById("categoryInput");
 
-const categoryInput = document.getElementById("categoryInput");
-
-const monthInput = document.getElementById("monthInput");
+const monthInput=document.getElementById("monthInput");
 
 function todayString(){
 
-  const d = new Date();
+const d=new Date();
 
-  const y = d.getFullYear();
+const y=d.getFullYear();
 
-  const m = String(d.getMonth()+1).padStart(2,"0");
+const m=String(d.getMonth()+1).padStart(2,"0");
 
-  const day = String(d.getDate()).padStart(2,"0");
+const day=String(d.getDate()).padStart(2,"0");
 
-  return `${y}-${m}-${day}`;
+return `${y}-${m}-${day}`;
 
 }
 
 function currentMonthString(){
 
-  return todayString().slice(0,7);
+return todayString().slice(0,7);
 
 }
 
-dateInput.value = todayString();
+dateInput.value=todayString();
 
-monthInput.value = currentMonthString();
+monthInput.value=currentMonthString();
 
 function saveData(){
 
-  localStorage.setItem(
+localStorage.setItem("ririanKakeiboData",JSON.stringify(data));
 
-    "ririanKakeiboData",
-
-    JSON.stringify(data)
-
-  );
-
-  localStorage.setItem(
-
-    "ririanKakeiboCategories",
-
-    JSON.stringify(categories)
-
-  );
+localStorage.setItem("ririanKakeiboCategories",JSON.stringify(categories));
 
 }
 
 function yen(num){
 
-  return "¥" + Number(num || 0).toLocaleString("ja-JP");
-
-}
-
-function updateCategorySelect(){
-
-  categoryInput.innerHTML = "";
-
-  categories[currentWallet].forEach(cat=>{
-
-    const option = document.createElement("option");
-
-    option.value = cat;
-
-    option.textContent = cat;
-
-    categoryInput.appendChild(option);
-
-  });
-
-}
-
-function updateCategoryList(){
-
-  const list = document.getElementById("categoryList");
-
-  list.innerHTML = "";
-
-  categories[currentWallet].forEach((cat,index)=>{
-
-    const chip = document.createElement("div");
-
-    chip.className = "category-chip";
-
-    chip.innerHTML =
-
-      `${escapeHtml(cat)}
-
-      <button onclick="deleteCategory(${index})">×</button>`;
-
-    list.appendChild(chip);
-
-  });
+return "¥"+Number(num||0).toLocaleString("ja-JP");
 
 }
 
 function escapeHtml(str){
 
-  return String(str)
+return String(str)
 
-    .replace(/&/g,"&amp;")
+.replace(/&/g,"&amp;")
 
-    .replace(/</g,"&lt;")
+.replace(/</g,"&lt;")
 
-    .replace(/>/g,"&gt;")
+.replace(/>/g,"&gt;")
 
-    .replace(/"/g,"&quot;")
+.replace(/"/g,"&quot;")
 
-    .replace(/'/g,"&#039;");
+.replace(/'/g,"&#039;");
+
+}
+
+function updateCategorySelect(){
+
+categoryInput.innerHTML="";
+
+categories[currentWallet].forEach(cat=>{
+
+const option=document.createElement("option");
+
+option.value=cat;
+
+option.textContent=cat;
+
+categoryInput.appendChild(option);
+
+});
+
+}
+
+function updateCategoryList(){
+
+const list=document.getElementById("categoryList");
+
+list.innerHTML="";
+
+categories[currentWallet].forEach((cat,index)=>{
+
+const chip=document.createElement("div");
+
+chip.className="category-chip";
+
+chip.innerHTML=
+
+`${escapeHtml(cat)} <button onclick="deleteCategory(${index})">×</button>`;
+
+list.appendChild(chip);
+
+});
 
 }
 
 function updateWalletUI(){
 
-  document.querySelectorAll(".wallet-tab").forEach(btn=>{
+document.querySelectorAll(".wallet-tab").forEach(btn=>{
 
-    btn.classList.toggle(
+btn.classList.toggle(
 
-      "active",
+"active",
 
-      btn.dataset.wallet === currentWallet
+btn.dataset.wallet===currentWallet
 
-    );
+);
 
-  });
+});
 
-  document.getElementById("formTitle").textContent =
+document.getElementById("formTitle").textContent=
 
-    `♡ ${currentWallet}に入力`;
+`♡ ${currentWallet}に入力`;
 
-  updateCategorySelect();
+updateCategorySelect();
 
-  updateCategoryList();
+updateCategoryList();
 
-  if(currentWallet === "教育"){
+if(currentWallet==="教育"){
 
-    document.getElementById("monthlyArea")
+document.getElementById("monthlyArea").classList.add("hidden");
 
-      .classList.add("hidden");
+document.getElementById("educationArea").classList.remove("hidden");
 
-    document.getElementById("educationArea")
+document.getElementById("listTitle").textContent=
 
-      .classList.remove("hidden");
+"🎓 教育費の明細";
 
-    document.getElementById("listTitle").textContent =
+}else{
 
-      "🎓 教育費の明細";
+document.getElementById("monthlyArea").classList.remove("hidden");
 
-  }else{
+document.getElementById("educationArea").classList.add("hidden");
 
-    document.getElementById("monthlyArea")
+document.getElementById("listTitle").textContent=
 
-      .classList.remove("hidden");
+"🧾 今月の明細";
 
-    document.getElementById("educationArea")
+}
 
-      .classList.add("hidden");
-
-    document.getElementById("listTitle").textContent =
-
-      "🧾 今月の明細";
-
-  }
-
-  render();
+render();
 
 }
 
 document.querySelectorAll(".wallet-tab").forEach(btn=>{
 
-  btn.addEventListener("click",()=>{
+btn.addEventListener("click",()=>{
 
-    currentWallet = btn.dataset.wallet;
+currentWallet=btn.dataset.wallet;
 
-    editingId = null;
+editingId=null;
 
-    resetForm();
+resetForm();
 
-    updateWalletUI();
-
-  });
+updateWalletUI();
 
 });
 
-document.getElementById("expenseBtn")
+});
 
-  .addEventListener("click",()=>{
+document.getElementById("expenseBtn").addEventListener("click",()=>{
 
-    currentType = "expense";
+currentType="expense";
 
-    document.getElementById("expenseBtn")
+document.getElementById("expenseBtn").classList.add("active");
 
-      .classList.add("active");
+document.getElementById("incomeBtn").classList.remove("active");
 
-    document.getElementById("incomeBtn")
+});
 
-      .classList.remove("active");
+document.getElementById("incomeBtn").addEventListener("click",()=>{
 
-  });
+currentType="income";
 
-document.getElementById("incomeBtn")
+document.getElementById("incomeBtn").classList.add("active");
 
-  .addEventListener("click",()=>{
+document.getElementById("expenseBtn").classList.remove("active");
 
-    currentType = "income";
+});
 
-    document.getElementById("incomeBtn")
-
-      .classList.add("active");
-
-    document.getElementById("expenseBtn")
-
-      .classList.remove("active");
-
-  });
-
-document.getElementById("saveBtn")
-
-  .addEventListener("click",saveTransaction);
+document.getElementById("saveBtn").addEventListener("click",saveTransaction);
 
 function saveTransaction(){
 
-  const date = dateInput.value;
+const date=dateInput.value;
 
-  const amount = Number(amountInput.value);
+const amount=Number(amountInput.value);
 
-  const memo = memoInput.value.trim();
+const memo=memoInput.value.trim();
 
-  const category = categoryInput.value;
+const category=categoryInput.value;
 
-  if(!date){
+if(!date){
 
-    alert("日付を入力してね");
+alert("日付を入力してね");
 
-    return;
+return;
 
-  }
+}
 
-  if(!amount || amount <= 0){
+if(!amount||amount<=0){
 
-    alert("金額を入力してね");
+alert("金額を入力してね");
 
-    return;
+return;
 
-  }
+}
 
-  if(!memo){
+if(!memo){
 
-    alert("内容を入力してね");
+alert("内容を入力してね");
 
-    return;
+return;
 
-  }
+}
 
-  if(editingId){
+if(editingId){
 
-    const item = data.find(x=>x.id === editingId);
+const item=data.find(x=>x.id===editingId);
 
-    if(item){
+if(item){
 
-      item.wallet = currentWallet;
+item.wallet=currentWallet;
 
-      item.type = currentType;
+item.type=currentType;
 
-      item.date = date;
+item.date=date;
 
-      item.amount = amount;
+item.amount=amount;
 
-      item.memo = memo;
+item.memo=memo;
 
-      item.category = category;
+item.category=category;
 
-    }
+}
 
-  }else{
+}else{
 
-    data.push({
+data.push({
 
-      id: Date.now().toString(),
+id:Date.now().toString(),
 
-      wallet: currentWallet,
+wallet:currentWallet,
 
-      type: currentType,
+type:currentType,
 
-      date: date,
+date:date,
 
-      amount: amount,
+amount:amount,
 
-      memo: memo,
+memo:memo,
 
-      category: category
+category:category
 
-    });
+});
 
-  }
+}
 
-  saveData();
+saveData();
 
-  editingId = null;
+editingId=null;
 
-  resetForm();
+resetForm();
 
-  render();
+render();
 
 }
 
 function resetForm(){
 
-  dateInput.value = todayString();
+dateInput.value=todayString();
 
-  amountInput.value = "";
+amountInput.value="";
 
-  memoInput.value = "";
+memoInput.value="";
 
-  currentType = "expense";
+currentType="expense";
 
-  document.getElementById("expenseBtn")
+document.getElementById("expenseBtn").classList.add("active");
 
-    .classList.add("active");
+document.getElementById("incomeBtn").classList.remove("active");
 
-  document.getElementById("incomeBtn")
+document.getElementById("saveBtn").textContent="追加する ♡";
 
-    .classList.remove("active");
-
-  document.getElementById("saveBtn").textContent =
-
-    "追加する ♡";
-
-  document.getElementById("cancelBtn")
-
-    .style.display = "none";
+document.getElementById("cancelBtn").style.display="none";
 
 }
 
-window.editTransaction = function(id){
+window.editTransaction=function(id){
 
-  const item = data.find(x=>x.id === id);
+const item=data.find(x=>x.id===id);
 
-  if(!item) return;
+if(!item)return;
 
-  editingId = id;
+editingId=id;
 
-  currentWallet = item.wallet;
+currentWallet=item.wallet;
 
-  currentType = item.type;
+currentType=item.type;
 
-  updateWalletUI();
+updateWalletUI();
 
-  dateInput.value = item.date;
+dateInput.value=item.date;
 
-  amountInput.value = item.amount;
+amountInput.value=item.amount;
 
-  memoInput.value = item.memo;
+memoInput.value=item.memo;
 
-  categoryInput.value = item.category;
+categoryInput.value=item.category;
 
-  if(currentType === "expense"){
+if(currentType==="expense"){
 
-    document.getElementById("expenseBtn")
+document.getElementById("expenseBtn").classList.add("active");
 
-      .classList.add("active");
+document.getElementById("incomeBtn").classList.remove("active");
 
-    document.getElementById("incomeBtn")
+}else{
 
-      .classList.remove("active");
+document.getElementById("incomeBtn").classList.add("active");
 
-  }else{
+document.getElementById("expenseBtn").classList.remove("active");
 
-    document.getElementById("incomeBtn")
+}
 
-      .classList.add("active");
+document.getElementById("saveBtn").textContent="変更を保存する ♡";
 
-    document.getElementById("expenseBtn")
+document.getElementById("cancelBtn").style.display="block";
 
-      .classList.remove("active");
+window.scrollTo({
 
-  }
+top:0,
 
-  document.getElementById("saveBtn").textContent =
+behavior:"smooth"
 
-    "変更を保存する ♡";
-
-  document.getElementById("cancelBtn")
-
-    .style.display = "block";
-
-  window.scrollTo({
-
-    top:0,
-
-    behavior:"smooth"
-
-  });
+});
 
 };
 
-window.deleteTransaction = function(id){
+window.deleteTransaction=function(id){
 
-  if(!confirm("この明細を削除する？")) return;
+if(!confirm("この明細を削除する？"))return;
 
-  data = data.filter(x=>x.id !== id);
+data=data.filter(x=>x.id!==id);
 
-  saveData();
+saveData();
 
-  render();
+render();
 
 };
 
-document.getElementById("cancelBtn")
+document.getElementById("cancelBtn").addEventListener("click",()=>{
 
-  .addEventListener("click",()=>{
+editingId=null;
 
-    editingId = null;
+resetForm();
 
-    resetForm();
+});
 
-  });
+document.getElementById("monthInput").addEventListener("change",render);
 
-document.getElementById("monthInput")
+document.getElementById("prevMonth").addEventListener("click",()=>{
 
-  .addEventListener("change",render);
+const d=new Date(monthInput.value+"-01");
 
-document.getElementById("prevMonth")
+d.setMonth(d.getMonth()-1);
 
-  .addEventListener("click",()=>{
+monthInput.value=d.toISOString().slice(0,7);
 
-    const d = new Date(monthInput.value + "-01");
+render();
 
-    d.setMonth(d.getMonth()-1);
+});
 
-    monthInput.value =
+document.getElementById("nextMonth").addEventListener("click",()=>{
 
-      d.toISOString().slice(0,7);
+const d=new Date(monthInput.value+"-01");
 
-    render();
+d.setMonth(d.getMonth()+1);
 
-  });
+monthInput.value=d.toISOString().slice(0,7);
 
-document.getElementById("nextMonth")
+render();
 
-  .addEventListener("click",()=>{
-
-    const d = new Date(monthInput.value + "-01");
-
-    d.setMonth(d.getMonth()+1);
-
-    monthInput.value =
-
-      d.toISOString().slice(0,7);
-
-    render();
-
-  });
+});
 
 function render(){
 
-  const walletData =
+const walletData=data.filter(x=>x.wallet===currentWallet);
 
-    data.filter(x=>x.wallet === currentWallet);
+if(currentWallet==="教育"){
 
-  if(currentWallet === "教育"){
+renderEducation(walletData);
 
-    renderEducation(walletData);
+}else{
 
-  }else{
+renderMonthly(walletData);
 
-    renderMonthly(walletData);
+}
 
-  }
-
-  renderList(walletData);
+renderList(walletData);
 
 }
 
 function renderMonthly(items){
 
-  const month = monthInput.value;
+const month=monthInput.value;
 
-  const monthly =
+const monthly=items.filter(x=>x.date.startsWith(month));
 
-    items.filter(x=>x.date.startsWith(month));
+const expense=monthly
 
-  const expense =
+.filter(x=>x.type==="expense")
 
-    monthly
+.reduce((sum,x)=>sum+x.amount,0);
 
-      .filter(x=>x.type === "expense")
+const income=monthly
 
-      .reduce((sum,x)=>sum+x.amount,0);
+.filter(x=>x.type==="income")
 
-  const income =
+.reduce((sum,x)=>sum+x.amount,0);
 
-    monthly
+document.getElementById("monthlyExpense").textContent=yen(expense);
 
-      .filter(x=>x.type === "income")
+document.getElementById("monthlyIncome").textContent=yen(income);
 
-      .reduce((sum,x)=>sum+x.amount,0);
+document.getElementById("monthlyBalance").textContent=yen(income-expense);
 
-  document.getElementById("monthlyExpense")
-
-    .textContent = yen(expense);
-
-  document.getElementById("monthlyIncome")
-
-    .textContent = yen(income);
-
-  document.getElementById("monthlyBalance")
-
-    .textContent = yen(income-expense);
-
-  document.getElementById("monthlyCount")
-
-    .textContent = monthly.length + "件";
+document.getElementById("monthlyCount").textContent=monthly.length+"件";
 
 }
 
 function renderEducation(items){
 
-  const expense =
+const expense=items
 
-    items
+.filter(x=>x.type==="expense")
 
-      .filter(x=>x.type === "expense")
+.reduce((sum,x)=>sum+x.amount,0);
 
-      .reduce((sum,x)=>sum+x.amount,0);
+const income=items
 
-  const income =
+.filter(x=>x.type==="income")
 
-    items
+.reduce((sum,x)=>sum+x.amount,0);
 
-      .filter(x=>x.type === "income")
+const balance=income-expense;
 
-      .reduce((sum,x)=>sum+x.amount,0);
+document.getElementById("educationTotal").textContent=yen(expense);
 
-  document.getElementById("educationTotal")
+document.getElementById("educationExpense").textContent=yen(expense);
 
-    .textContent = yen(expense);
+document.getElementById("educationIncome").textContent=yen(income);
 
-  document.getElementById("educationExpense")
-
-    .textContent = yen(expense);
-
-  document.getElementById("educationIncome")
-
-    .textContent = yen(income);
+document.getElementById("educationBalance").textContent=yen(balance);
 
 }
 
 function renderList(items){
 
-  let listItems = items;
+let listItems=items;
 
-  if(currentWallet !== "教育"){
+if(currentWallet!=="教育"){
 
-    const month = monthInput.value;
+const month=monthInput.value;
 
-    listItems =
-
-      items.filter(x=>x.date.startsWith(month));
-
-  }
-
-  listItems =
-
-    [...listItems].sort((a,b)=>
-
-      b.date.localeCompare(a.date)
-
-    );
-
-  const list =
-
-    document.getElementById("transactionList");
-
-  list.innerHTML = "";
-
-  if(listItems.length === 0){
-
-    list.innerHTML =
-
-      '<div class="empty">まだ明細がないよ♡</div>';
-
-    return;
-
-  }
-
-  listItems.forEach(item=>{
-
-    const div = document.createElement("div");
-
-    div.className = "item";
-
-    const sign =
-
-      item.type === "expense" ? "−" : "+";
-
-    div.innerHTML = `
-
-      <div class="item-top">
-
-        <div class="item-name">
-
-          ${escapeHtml(item.memo)}
-
-        </div>
-
-        <div class="item-amount ${item.type}">
-
-          ${sign}${yen(item.amount)}
-
-        </div>
-
-      </div>
-
-      <div class="item-bottom">
-
-        <div>
-
-          ${escapeHtml(item.date)}
-
-          ／
-
-          ${escapeHtml(item.category)}
-
-        </div>
-
-        <div class="item-buttons">
-
-          <button onclick="editTransaction('${item.id}')">
-
-            編集
-
-          </button>
-
-          <button onclick="deleteTransaction('${item.id}')">
-
-            削除
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-    list.appendChild(div);
-
-  });
+listItems=items.filter(x=>x.date.startsWith(month));
 
 }
 
-document.getElementById("addCategory")
+listItems=[...listItems].sort((a,b)=>
 
-  .addEventListener("click",()=>{
+b.date.localeCompare(a.date)
 
-    const input =
+);
 
-      document.getElementById("newCategory");
+const list=document.getElementById("transactionList");
 
-    const name = input.value.trim();
+list.innerHTML="";
 
-    if(!name) return;
+if(listItems.length===0){
 
-    if(categories[currentWallet].includes(name)){
+list.innerHTML=
 
-      alert("そのカテゴリはもうあるよ");
+'<div class="empty">まだ明細がないよ♡</div>';
 
-      return;
+return;
 
-    }
+}
 
-    categories[currentWallet].push(name);
+listItems.forEach(item=>{
 
-    input.value = "";
+const div=document.createElement("div");
 
-    saveData();
+div.className="item";
 
-    updateCategorySelect();
+const sign=item.type==="expense"?"−":"+";
 
-    updateCategoryList();
+div.innerHTML=`
 
-  });
+<div class="item-top">
 
-document.getElementById("newCategory")
+<div class="item-name">
 
-  .addEventListener("keydown",e=>{
+${escapeHtml(item.memo)}
 
-    if(e.key === "Enter"){
+</div>
 
-      document.getElementById("addCategory").click();
+<div class="item-amount ${item.type}">
 
-    }
+${sign}${yen(item.amount)}
 
-  });
+</div>
 
-window.deleteCategory = function(index){
+</div>
 
-  const name =
+<div class="item-bottom">
 
-    categories[currentWallet][index];
+<div>
 
-  if(!confirm(
+${escapeHtml(item.date)}
 
-    `「${name}」を削除する？\n\nすでに登録済みの明細には影響しません。`
+／
 
-  )) return;
+${escapeHtml(item.category)}
 
-  categories[currentWallet].splice(index,1);
+</div>
 
-  saveData();
+<div class="item-buttons">
 
-  updateCategorySelect();
+<button onclick="editTransaction('${item.id}')">
 
-  updateCategoryList();
+編集
+
+</button>
+
+<button onclick="deleteTransaction('${item.id}')">
+
+削除
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+list.appendChild(div);
+
+});
+
+}
+
+document.getElementById("addCategory").addEventListener("click",()=>{
+
+const input=document.getElementById("newCategory");
+
+const name=input.value.trim();
+
+if(!name)return;
+
+if(categories[currentWallet].includes(name)){
+
+alert("そのカテゴリはもうあるよ");
+
+return;
+
+}
+
+categories[currentWallet].push(name);
+
+input.value="";
+
+saveData();
+
+updateCategorySelect();
+
+updateCategoryList();
+
+});
+
+document.getElementById("newCategory").addEventListener("keydown",e=>{
+
+if(e.key==="Enter"){
+
+document.getElementById("addCategory").click();
+
+}
+
+});
+
+window.deleteCategory=function(index){
+
+const name=categories[currentWallet][index];
+
+if(!confirm(
+
+`「${name}」を削除する？\n\nすでに登録済みの明細には影響しません。`
+
+))return;
+
+categories[currentWallet].splice(index,1);
+
+saveData();
+
+updateCategorySelect();
+
+updateCategoryList();
 
 };
 
