@@ -88,6 +88,20 @@ input:focus,select:focus{border-color:#dda8bf}
 
 .education-balance .total{font-size:27px;font-weight:bold;color:#76a88a;margin-top:4px}
 
+.category-summary{margin-top:14px}
+
+.category-summary-title{font-size:13px;font-weight:bold;color:#936b7d;margin-bottom:8px}
+
+.category-row{display:flex;justify-content:space-between;align-items:center;padding:10px 4px;border-bottom:1px solid #f4e8ed;font-size:13px}
+
+.category-row:last-child{border-bottom:none}
+
+.category-row .cat-name{color:#666}
+
+.category-row .cat-amount{font-weight:bold;color:#b16d89}
+
+.category-total{display:flex;justify-content:space-between;padding:12px 4px;margin-top:5px;border-top:2px solid #f0dce4;font-weight:bold;color:#8d6276}
+
 .list{margin-top:4px}
 
 .item{border-bottom:1px solid #f3e7eb;padding:12px 0}
@@ -156,7 +170,7 @@ input:focus,select:focus{border-color:#dda8bf}
 
 <div class="card">
 
-<div class="card-title" id="formTitle">🏠 家計簿に入力</div>
+<div class="card-title" id="formTitle">♡ 家計簿に入力</div>
 
 <div class="type-buttons">
 
@@ -240,6 +254,14 @@ input:focus,select:focus{border-color:#dda8bf}
 
 </div>
 
+<div class="category-summary">
+
+<div class="category-summary-title">🏷 カテゴリ別支出</div>
+
+<div id="monthlyCategorySummary"></div>
+
+</div>
+
 </div>
 
 <div id="educationArea" class="hidden">
@@ -277,6 +299,14 @@ input:focus,select:focus{border-color:#dda8bf}
 <div class="summary-number" id="educationIncome">¥0</div>
 
 </div>
+
+</div>
+
+<div class="category-summary">
+
+<div class="category-summary-title">🏷 カテゴリ別支出・累計</div>
+
+<div id="educationCategorySummary"></div>
 
 </div>
 
@@ -734,7 +764,9 @@ const d=new Date(monthInput.value+"-01");
 
 d.setMonth(d.getMonth()-1);
 
-monthInput.value=d.toISOString().slice(0,7);
+monthInput.value=
+
+d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
 
 render();
 
@@ -746,7 +778,9 @@ const d=new Date(monthInput.value+"-01");
 
 d.setMonth(d.getMonth()+1);
 
-monthInput.value=d.toISOString().slice(0,7);
+monthInput.value=
+
+d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
 
 render();
 
@@ -796,6 +830,14 @@ document.getElementById("monthlyBalance").textContent=yen(income-expense);
 
 document.getElementById("monthlyCount").textContent=monthly.length+"件";
 
+renderCategorySummary(
+
+monthly,
+
+document.getElementById("monthlyCategorySummary")
+
+);
+
 }
 
 function renderEducation(items){
@@ -821,6 +863,84 @@ document.getElementById("educationExpense").textContent=yen(expense);
 document.getElementById("educationIncome").textContent=yen(income);
 
 document.getElementById("educationBalance").textContent=yen(balance);
+
+renderCategorySummary(
+
+items,
+
+document.getElementById("educationCategorySummary")
+
+);
+
+}
+
+function renderCategorySummary(items,container){
+
+const totals={};
+
+items
+
+.filter(x=>x.type==="expense")
+
+.forEach(x=>{
+
+if(!totals[x.category]) totals[x.category]=0;
+
+totals[x.category]+=x.amount;
+
+});
+
+container.innerHTML="";
+
+const entries=Object.entries(totals)
+
+.filter(([cat,total])=>total>0)
+
+.sort((a,b)=>b[1]-a[1]);
+
+if(entries.length===0){
+
+container.innerHTML=
+
+'<div class="empty">まだ支出がないよ♡</div>';
+
+return;
+
+}
+
+entries.forEach(([category,total])=>{
+
+const row=document.createElement("div");
+
+row.className="category-row";
+
+row.innerHTML=`
+
+<div class="cat-name">🏷 ${escapeHtml(category)}</div>
+
+<div class="cat-amount">${yen(total)}</div>
+
+`;
+
+container.appendChild(row);
+
+});
+
+const grandTotal=entries.reduce((sum,[cat,total])=>sum+total,0);
+
+const totalRow=document.createElement("div");
+
+totalRow.className="category-total";
+
+totalRow.innerHTML=`
+
+<div>合計</div>
+
+<div>${yen(grandTotal)}</div>
+
+`;
+
+container.appendChild(totalRow);
 
 }
 
