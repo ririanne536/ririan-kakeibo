@@ -474,25 +474,67 @@ categoryInput.appendChild(option);
 
 function updateCategoryList(){
 
-const list=document.getElementById("categoryList");
+  const list=document.getElementById("categoryList");
 
-list.innerHTML="";
+  list.innerHTML="";
 
-categories[currentWallet].forEach((cat,index)=>{
+  categories[currentWallet].forEach((cat,index)=>{
 
-const chip=document.createElement("div");
+    const chip=document.createElement("div");
 
-chip.className="category-chip";
+    chip.className="category-chip";
 
-chip.innerHTML=
+    chip.innerHTML=
 
-`${escapeHtml(cat)} <button onclick="deleteCategory(${index})">×</button>`;
+      `${escapeHtml(cat)}
 
-list.appendChild(chip);
+      <button onclick="editCategory(${index})">✏️</button>
 
-});
+      <button onclick="deleteCategory(${index})">×</button>`;
+
+    list.appendChild(chip);
+
+  });
 
 }
+
+window.editCategory=function(index){
+
+  const oldName=categories[currentWallet][index];
+
+  const newName=prompt("新しいカテゴリ名を入力してね",oldName);
+
+  if(newName===null)return;
+
+  const name=newName.trim();
+
+  if(!name){
+
+    alert("カテゴリ名を入力してね");
+
+    return;
+
+  }
+
+  if(name!==oldName && categories[currentWallet].includes(name)){
+
+    alert("そのカテゴリはもうあるよ");
+
+    return;
+
+  }
+
+  categories[currentWallet][index]=name;
+
+  saveData();
+
+  updateCategorySelect();
+
+  updateCategoryList();
+
+  render();
+
+};
 
 function updateWalletUI(){
 
